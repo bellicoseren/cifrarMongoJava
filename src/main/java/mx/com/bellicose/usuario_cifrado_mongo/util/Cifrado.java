@@ -1,4 +1,4 @@
-package bellicose.com.usuario_cifrado_mongo.util;
+package mx.com.bellicose.usuario_cifrado_mongo.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;

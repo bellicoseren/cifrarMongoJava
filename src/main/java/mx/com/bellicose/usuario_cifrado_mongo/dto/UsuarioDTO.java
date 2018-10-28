@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
-import bellicose.com.usuario_cifrado_mongo.util.Cifrado;
+import mx.com.bellicose.usuario_cifrado_mongo.util.Cifrado;
 
 public class UsuarioDTO {
 	
