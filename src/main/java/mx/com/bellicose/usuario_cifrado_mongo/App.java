@@ -1,7 +1,5 @@
 package mx.com.bellicose.usuario_cifrado_mongo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.mongodb.DB;
@@ -10,8 +8,9 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
-import mx.com.bellicose.usuario_cifrado_mongo.dao.UsuarioDAO;
-import mx.com.bellicose.usuario_cifrado_mongo.dto.UsuarioDTO;
+import mx.com.bellicose.usuario_cifrado_mongo.dao.PortabilidadRegDAO;
+import mx.com.bellicose.usuario_cifrado_mongo.dto.PortabilidadRegDTO;
+import mx.com.bellicose.usuario_cifrado_mongo.util.Cifrado;
 
 /**
  * Hello world!
@@ -21,44 +20,43 @@ public class App
 {
     public static void main( String[] args )
     {
+    	String clave = "1111111111111111";
+    	String vi = "1111111111111111";
     	MongoClient mongoClient = new MongoClient();
     	DBCollection collection = null;
-		DB db = mongoClient.getDB("db_cifrada");
-		collection = db.getCollection("usuario");
-    	
-    	ArrayList<UsuarioDTO> usuarios = new ArrayList<>();
-    	
-    	usuarios.add(new UsuarioDTO("Kev", "Hernandez Flores", 15, new ArrayList<String>(Arrays.asList("Maestro")), true));
-    	usuarios.add(new UsuarioDTO("Christopher", "Hernandez Flores", 15, new ArrayList<String>(Arrays.asList("Ingeniero")), true));
-    	usuarios.add(new UsuarioDTO("Keruvin", "Hernandez Flores", 15, new ArrayList<String>(Arrays.asList("Arquitecto")), true));
-    	usuarios.add(new UsuarioDTO("Rene", "Hernandez Ramirez", 36, new ArrayList<String>(Arrays.asList("Ingeniero")), false));
-    	usuarios.add(new UsuarioDTO("Rene", "Hernandez Ramirez", 36, new ArrayList<String>(Arrays.asList("Developer")), false));
-    	
-//    	Conexión al Servidor de MongoDB
-//    	MongoClient mongoClient = new MongoClient();
-
-    	
-//    	CRUD Insertamos los objetos futbolistas (o documentos a Mongo) en la colección futbolista
-    	for (@SuppressWarnings("unused") UsuarioDTO usuario : usuarios) {
-//			collection.insert(usuario.toDbObjectUsuario());
-		}
-    	
+    	DBCollection collection1 = null;
+		@SuppressWarnings("deprecation")
+		DB db = mongoClient.getDB("cifrada");
+//		collection = db.getCollection("Aclaraciones_Bines");
+		collection1 = db.getCollection("Bines_C");
+    	    	
     	
 //    	DAO leer
-    	UsuarioDAO dao = new UsuarioDAO();
-    	List<UsuarioDTO> leer = dao.leer();
+    	PortabilidadRegDAO dao = new PortabilidadRegDAO();
+    	List<PortabilidadRegDTO> leer = dao.leer();
     	System.out.println("Lectura de Usuarios");
-    	for (UsuarioDTO dbObject : leer) {
+    	for (PortabilidadRegDTO dbObject : leer) {
+    		try {
+//				dbObject.setDescripcion(Cifrado.cifrar(clave, vi, dbObject.getDescripcion()));
+    			dbObject.setDescripcion(Cifrado.decifrar(clave, vi, dbObject.getDescripcion()));
+//    			dbObject.setDescripcion(dbObject.getDescripcion());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//    		System.out.println("desc..." +  dbObject.getDescripcion());
+//    		collection1.insert(dbObject.toDbObjectPortabilidadReg());
+    		//dao.agregar(dbObject);
 			System.out.println(dbObject.toString());
 		}
     	
     	
 //    	Consulta por posiciones
-    	DBCursor consulta = dao.consultaPosicion();
-    	System.out.println("Consulta por profesiones");
-    	for (DBObject dbObject : consulta) {
-			System.out.println(dbObject.toString());
-		}
+//    	DBCursor consulta = dao.consultaPosicion();
+//    	System.out.println("Consulta por profesiones");
+//    	for (DBObject dbObject : consulta) {
+//			System.out.println(dbObject.toString());
+//		}
     	
     	
 //    	Actualizar edad  	

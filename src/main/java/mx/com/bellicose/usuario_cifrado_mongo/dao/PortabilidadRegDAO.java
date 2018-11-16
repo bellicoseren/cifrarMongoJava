@@ -11,9 +11,9 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
 import mx.com.bellicose.usuario_cifrado_mongo.Utils;
-import mx.com.bellicose.usuario_cifrado_mongo.dto.UsuarioDTO;
+import mx.com.bellicose.usuario_cifrado_mongo.dto.PortabilidadRegDTO;
 
-public class UsuarioDAO {
+public class PortabilidadRegDAO {
 
 	private MongoClient mongoClient = new MongoClient();
 	private DBCursor cursor = null;
@@ -23,25 +23,29 @@ public class UsuarioDAO {
 	/*
 	 *  READ Leer todos los usuarios de la base de datos
 	 */
-	public List<UsuarioDTO> leer() {
+	public List<PortabilidadRegDTO> leer() {
 
 
 		@SuppressWarnings("deprecation")
-		DB db = mongoClient.getDB("db_cifrada");
+		DB db = mongoClient.getDB("cifrada");
 
-		collection = db.getCollection("usuario");
+		collection = db.getCollection("Bines_C");
 
-		List<UsuarioDTO> usuarios = new ArrayList<>();
+		List<PortabilidadRegDTO> usuarios = new ArrayList<>();
 		
 		int numDocumentos = (int) collection.getCount();
-		System.out.println("Hay " + numDocumentos + " en la colección");
+		System.out.println("Hay " + numDocumentos + " documentos en la colección");
 
 		cursor = collection.find();
 		try {
 			while (cursor.hasNext()) {
 				DBObject dbObject = cursor.next();
-				System.out.println(dbObject.toString());
-				usuarios.add((UsuarioDTO) Utils.fromDBObject(dbObject, UsuarioDTO.class));
+//				System.out.println(dbObject.toString());
+				usuarios.add((PortabilidadRegDTO) Utils.fromDBObject(dbObject, PortabilidadRegDTO.class));
+//				System.out.println(Utils.fromDBObject(dbObject, PortabilidadRegDTO.class).toString());
+//				System.out.println("BELLICOSE " + dbObject.get("Id"));
+//				System.out.println("BELLICOSE " + dbObject.get("Bin"));
+//				System.out.println("BELLICOSE " + dbObject.get("Descripcion"));
 			}
 		} finally {
 			cursor.close();
@@ -54,12 +58,12 @@ public class UsuarioDAO {
 	/*
 	 * CREATE un usuario a la base de datos
 	 */
-	public void agregar(UsuarioDTO usuarioDTO){
+	public void agregar(PortabilidadRegDTO portabilidadRegDTO){
 		@SuppressWarnings("deprecation")
-		DB db = mongoClient.getDB("db_cifrada");
-		collection = db.getCollection("usuario");
+		DB db = mongoClient.getDB("cifrada");
+		collection = db.getCollection("Bines_C");
 		
-		collection.insert(usuarioDTO.toDbObjectUsuario());
+		collection.insert(portabilidadRegDTO.toDbObjectPortabilidadReg());
 		System.out.println("Registro agregado");
 	}
 	
@@ -73,8 +77,8 @@ public class UsuarioDAO {
     	cursor = collection.find(query);
     	try{
 	    	while(cursor.hasNext()){
-	    		UsuarioDTO usuarioDTO = new UsuarioDTO((BasicDBObject) cursor.next());
-	    		System.out.println(usuarioDTO.getNombre());
+//	    		PortabilidadRegDTO usuarioDTO = new PortabilidadRegDTO((BasicDBObject) cursor.next());
+//	    		System.out.println(usuarioDTO.getNombre());
 	    	}
     	}finally{
     		cursor.close();
