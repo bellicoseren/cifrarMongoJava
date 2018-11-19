@@ -25,10 +25,8 @@ public class PortabilidadRegDAO {
 	 */
 	public List<PortabilidadRegDTO> leer() {
 
-
 		@SuppressWarnings("deprecation")
 		DB db = mongoClient.getDB("cifrada");
-
 		collection = db.getCollection("Bines_C");
 
 		List<PortabilidadRegDTO> usuarios = new ArrayList<>();
